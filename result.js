@@ -6,6 +6,9 @@ function onWindowLoaded() {
   const result = getBmiResult(bmi);
   const riskColor = getRiskColor(result.risk);
 
+  const recalculateButton = document.getElementById('recalculateButton');
+  recalculateButton.addEventListener('click', handleRecalculateButtonClick);
+
   const introSentence = document.getElementById('introSentence');
   introSentence.innerText = `Hello ${userData.firstName} ${userData.lastName}!`
   
@@ -18,6 +21,11 @@ function onWindowLoaded() {
     
   const descriptionText = document.getElementById('descriptionText');
   descriptionText.innerHTML = `${result.description}`;
+}
+
+const handleRecalculateButtonClick = (event) => {
+  event.preventDefault();
+  window.location.replace(window.location.origin);
 }
 
 const calculateBmi = (height, weight) => (weight == 0) ? null : (weight / Math.pow(height, 2) * 10000);
