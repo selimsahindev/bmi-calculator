@@ -1,26 +1,30 @@
-const form = document.getElementById('userForm');
-form.addEventListener('submit', handleOnSubmit);
-
-const clearButton = document.getElementById('clearButton');
-clearButton.addEventListener('click', handleOnClear);
-
 var genderRadios = document.getElementsByName('genderRadioOptions');
+var firstNameInput = document.getElementById('firstNameInput');
+var lastNameInput = document.getElementById('lastNameInput')
+var heightInput = document.getElementById('heightInput');
+var weightInput = document.getElementById('weightInput');
+var birthDateInput = document.getElementById('birthDateInput');
+
+window.onload = fillAllInputs;
+
+document.getElementById('userForm').addEventListener('submit', handleOnSubmit);
+document.getElementById('clearButton').addEventListener('click', handleOnClear);
 
 function handleOnSubmit(event) {
   event.preventDefault();
 
   const formData = {
-    firstName: document.getElementById('firstNameInput').value,
-    lastName: document.getElementById('lastNameInput').value,
-    height: document.getElementById('heightInput').value,
-    weight: document.getElementById('weightInput').value,
-    birthDate: document.getElementById('birthDateInput').value,
+    firstName: firstNameInput.value,
+    lastName: lastNameInput.value,
+    height: heightInput.value,
+    weight: weightInput.value,
+    birthDate: birthDateInput.value,
     gender: getGender()
   }
 
   saveDataToCookie(formData);
 
-  window.location.replace(window.location.origin + '/index.html');
+  window.location.replace(window.location.origin + '/result.html');
 }
 
 function saveDataToCookie(data) {
@@ -37,13 +41,11 @@ function saveDataToCookie(data) {
 function handleOnClear(event) {
   event.preventDefault();
 
-  document.getElementById('firstNameInput').value = null;
-  document.getElementById('lastNameInput').value = null;
-  document.getElementById('heightInput').value = null;
-  document.getElementById('weightInput').value = null;
-  document.getElementById('birthDateInput').value = null;
-  
-  console.log(genderRadios);
+  firstNameInput.value = null;
+  lastNameInput.value = null;
+  heightInput.value = null;
+  weightInput.value = null;
+  birthDateInput.value = null;
 
   for (let i = 0; i < genderRadios.length; i++) {
     genderRadios[i].checked = false;
@@ -57,4 +59,15 @@ function getGender() {
     }
   }
   return null;
+}
+
+function fillAllInputs() {
+  firstNameInput.value = getCookie('firstName');
+  lastNameInput.value = getCookie('lastName');
+  heightInput.value = getCookie('height');
+  weightInput.value = getCookie('weight');
+  birthDateInput.value = getCookie('birthDate');
+  for (let i = 0; i < genderRadios.length; i++) {
+    genderRadios[i].checked = genderRadios[i].id == getCookie('gender');
+  }
 }
